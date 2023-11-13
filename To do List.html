@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Afazeres</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    #todoList {
+      width: 300px;
+      margin: 50px auto;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input {
+      width: 70%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #ff3333;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="todoList">
+    <h1>Lista de Compromissos</h1>
+    <input type="text" id="taskInput" placeholder="Adicionar nova tarefa">
+    <button onclick="addTask()">Adicionar</button>
+    <ul id="tasksList"></ul>
+  </div>
+
+  <script>
+    function addTask() {
+      var taskInput = document.getElementById('taskInput');
+      var taskText = taskInput.value.trim();
+
+      if (taskText === '') {
+        alert('Por favor, insira uma tarefa.');
+        return;
+      }
+
+      var tasksList = document.getElementById('tasksList');
+      var li = document.createElement('li');
+      li.innerHTML = `
+        <span>${taskText}</span>
+        <button onclick="removeTask(this)">Remover</button>
+      `;
+      tasksList.appendChild(li);
+
+      taskInput.value = '';
+
+      changeColors();
+    }
+
+    function removeTask(button) {
+      var li = button.parentElement;
+      var tasksList = document.getElementById('tasksList');
+      tasksList.removeChild(li);
+
+      changeColors();
+    }
+
+    function changeColors() {
+      var tasksListItems = document.querySelectorAll('#tasksList li');
+
+      tasksListItems.forEach(function (li, index) {
+        var hue = (index * 30) % 360; 
+        
+        li.style.backgroundColor = 'hsl(' + hue + ', 70%, 80%)';
+      });
+    }
+
+    changeColors();
+
+    setInterval(changeColors, 5000);
+  </script>
+
+</body>
+</html>
